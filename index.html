@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>财富管理系统 v10.7 (星轨炫彩版)</title>
+    <title>财富管理系统 v10.7 (最终完整版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -57,7 +57,6 @@
         }
         #magic-overlay.active { display: block; }
         
-        /* 星空背景 */
         .stars {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
             background-image: 
@@ -65,8 +64,7 @@
                 radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0));
             background-repeat: repeat; background-size: 250px 250px; opacity: 0.5;
             animation: twinkle 5s infinite linear;
         }
@@ -74,66 +72,21 @@
 
         .magic-ui-container {
             position: absolute; bottom: 40px; width: 100%;
-            display: flex; flex-direction: column; align-items: center; gap: 30px;
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
             z-index: 10001; pointer-events: none;
         }
-        
-        /* --- 方案 A：星轨悬浮球 (Orbital Spheres) --- */
         .magic-btn {
-            pointer-events: auto; 
-            background: rgba(255, 255, 255, 0.05); /* 极淡的玻璃底 */
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            color: rgba(255, 255, 255, 0.7);
-            
-            /* 核心：圆形/胶囊形 */
-            border-radius: 50px; 
-            padding: 10px 24px;
-            
-            cursor: pointer; font-size: 13px; font-weight: 400; letter-spacing: 1px; 
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(4px);
-            
-            /* 默认无光晕 */
-            box-shadow: 0 0 0 rgba(255,255,255,0);
+            pointer-events: auto; background: transparent;
+            border: 1px solid rgba(255,255,255,0.4); color: rgba(255,255,255,0.8);
+            padding: 8px 20px; border-radius: 4px; cursor: pointer;
+            font-size: 13px; font-weight: 300; letter-spacing: 2px; transition: all 0.3s;
         }
-
-        /* 专门针对 Emoji 的圆形按钮 */
-        .magic-btn.emoji-btn {
-            width: 46px; height: 46px; padding: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; border-radius: 50%; /* 完美正圆 */
+        .magic-btn.emoji-btn { font-size: 18px; padding: 6px 20px; letter-spacing: 0; }
+        .magic-btn:hover, .magic-btn.active {
+            border-color: #fff; color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.3); background: rgba(255,255,255,0.1);
         }
-
-        /* 悬停状态 */
-        .magic-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.8);
-            color: #fff;
-            transform: translateY(-2px); /* 微微上浮 */
-        }
-
-        /* 选中状态：星轨光环亮起 */
-        .magic-btn.active {
-            border-color: #fff; color: #fff;
-            background: rgba(255, 255, 255, 0.2);
-            /* 核心光晕 + 外圈轨道感 */
-            box-shadow: 
-                0 0 15px rgba(255, 255, 255, 0.4), /* 内部辉光 */
-                0 0 0 2px rgba(0, 0, 0, 0.5),      /* 间隔黑圈 */
-                0 0 0 4px rgba(255, 255, 255, 0.2); /* 外部轨道 */
-            transform: scale(1.1);
-        }
-
-        /* 主按钮特殊样式 */
-        #magic-main-btn { 
-            padding: 14px 40px; font-size: 16px; letter-spacing: 3px; 
-            border: 1px solid rgba(255,255,255,0.5);
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1));
-        }
-        #magic-main-btn:hover { 
-            box-shadow: 0 0 30px rgba(255,255,255,0.3); 
-            background: rgba(255,255,255,0.2);
-        }
+        #magic-main-btn { padding: 12px 36px; font-size: 15px; border: 1px solid rgba(255,255,255,0.6); }
+        #magic-main-btn:hover { box-shadow: 0 0 25px rgba(255,255,255,0.4); }
         
         #magic-text {
             position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%);
@@ -147,7 +100,18 @@
         #magic-status { position: absolute; top: 20px; left: 20px; color: rgba(255,255,255,0.5); font-size: 12px; z-index: 10002; }
         #magic-close { position: absolute; top: 20px; right: 20px; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 24px; z-index: 10003; transition: color 0.3s; }
         #magic-close:hover { color: #fff; }
-        #webcam { position: absolute; bottom: 10px; right: 10px; width: 100px; opacity: 0.3; transform: scaleX(-1); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; pointer-events: none; z-index: 10000; }
+        
+        /* 摄像头与骨架图层 */
+        #webcam-container {
+            position: absolute; bottom: 10px; right: 10px; width: 120px; height: 90px;
+            z-index: 10000; pointer-events: none;
+        }
+        #webcam, #skeleton-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 4px; transform: scaleX(-1); /* 镜像翻转 */
+        }
+        #webcam { opacity: 0.3; border: 1px solid rgba(255,255,255,0.3); }
+        #skeleton-canvas { opacity: 0.8; }
         
         #magic-loading { position: absolute; inset: 0; background: #000; z-index: 10005; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; }
         .magic-loader { width: 40px; height: 40px; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; border-top-color: #fff; animation: spin 1s infinite; margin-bottom: 20px; }
@@ -161,7 +125,7 @@
         <aside class="w-64 bg-white dark:bg-slate-800 flex flex-col z-20 shrink-0 border-r border-gray-200 dark:border-gray-700 shadow-xl">
             <div class="p-6 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl shadow-lg bg-indigo-600 text-white dark:bg-gold-500 dark:text-black">W</div>
-                <div><h1 class="text-lg font-bold tracking-wide text-gray-800 dark:text-white">财富管理系统</h1><p class="text-[10px] tracking-widest text-gray-400">V10.7 炫彩版</p></div>
+                <div><h1 class="text-lg font-bold tracking-wide text-gray-800 dark:text-white">财富管理系统</h1><p class="text-[10px] tracking-widest text-gray-400">V10.7 完整版</p></div>
             </div>
             <nav class="flex-1 mt-6 space-y-1 px-3">
                 <a @click="currentTab = 'list'" :class="currentTab === 'list' ? 'nav-item active' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-slate-700'" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-r-lg cursor-pointer transition-colors"><span>📊</span> 基金库管理</a>
@@ -181,10 +145,7 @@
         <main class="flex-1 overflow-y-auto p-8 relative bg-gray-100 dark:bg-slate-900">
             <div v-if="currentTab === 'list'" class="space-y-6 h-full flex flex-col">
                 <div class="flex justify-between items-end shrink-0 pb-2 border-b border-gray-200 dark:border-gray-700">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white inline-block">全量基金库管理</h2>
-                        <span class="text-xs text-gray-400 ml-2">（AI搜集导入，不保证准确性）</span>
-                    </div>
+                    <div><h2 class="text-2xl font-bold text-gray-800 dark:text-white inline-block">全量基金库管理</h2><span class="text-xs text-gray-400 ml-2">（AI搜集导入，不保证准确性）</span></div>
                     <div class="flex gap-3"><button @click="exportData" class="text-xs px-3 py-1.5 rounded border bg-white text-indigo-600 hover:bg-indigo-50 dark:bg-slate-800 dark:text-gray-300 dark:border-gray-600">📤 批量导出</button><span class="text-xs px-3 py-1 rounded-full border bg-white text-gray-600 dark:bg-gold-500/10 dark:text-gold-400 dark:border-gold-500/20">共 {{ funds.length }} 只</span></div>
                 </div>
                 <div class="bg-white dark:bg-slate-800 rounded-xl shadow border border-gray-200 dark:border-gray-700 flex flex-col flex-1 overflow-hidden">
@@ -304,6 +265,12 @@
             <div id="magic-status">准备就绪 | 手掌张开释放，捏合收回</div>
             <div id="magic-close" onclick="app.closeMagic()">×</div>
             <div id="magic-text">为信任奉献回报</div>
+            
+            <div id="webcam-container">
+                <video id="webcam" autoplay playsinline muted></video>
+                <canvas id="skeleton-canvas"></canvas>
+            </div>
+            
             <div class="magic-ui-container">
                 <button id="magic-main-btn" class="magic-btn" onclick="app.toggleMagic()">释放星辰</button>
                 <div style="display:flex; gap:15px;">
@@ -311,8 +278,8 @@
                     <button class="magic-btn" onclick="app.switchShape('logo')">China AMC</button>
                     <button class="magic-btn emoji-btn" onclick="app.switchShape('planet')">🪐</button>
                 </div>
+                <button id="skeleton-btn" class="magic-btn" onclick="app.toggleSkeleton()" style="margin-top:-10px; opacity:0.7;">👁️ 骨架</button>
             </div>
-            <video id="webcam" autoplay playsinline muted></video>
             <canvas id="logoCanvas"></canvas>
             <div id="magic-scene-container"></div>
         </div>
@@ -360,14 +327,14 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
 
-        const vShader=`uniform float uTime;uniform float uMix;uniform float uExplode;uniform float uSize;attribute vec3 aTarget;attribute vec3 aColor;attribute float aSize;varying vec3 vColor;float random(vec3 st){return fract(sin(dot(st.xyz,vec3(12.9898,78.233,45.5432)))*43758.5453123);}void main(){vColor=aColor;vec3 pos=mix(position,aTarget,uMix);float breathing=sin(pos.x*0.05+uTime*1.0)*cos(pos.z*0.05+uTime*1.0)*0.2;pos+=normal*breathing*(1.0-smoothstep(0.0,2.0,uExplode));vec3 dir=normalize(pos);vec3 randomDir=normalize(vec3(sin(aSize*12.0),cos(aSize*23.0),sin(aSize*34.0)));dir=normalize(mix(dir,randomDir,0.8));float maxDist=70.0;float dist=pow(uExplode,0.8)*20.0;pos+=dir*dist;vec4 mvPosition=modelViewMatrix*vec4(pos,1.0);gl_Position=projectionMatrix*mvPosition;float sizeBonus=smoothstep(0.0,4.0,uExplode)*3.0*(0.8+0.2*sin(uTime*5.0+aSize*10.0));gl_PointSize=(uSize*aSize+sizeBonus)*(300.0/-mvPosition.z);}`;
+        const vShader=`uniform float uTime;uniform float uMix;uniform float uExplode;uniform float uSize;attribute vec3 aTarget;attribute vec3 aColor;attribute float aSize;varying vec3 vColor;float random(vec3 st){return fract(sin(dot(st.xyz,vec3(12.9898,78.233,45.5432)))*43758.5453123);}void main(){vColor=aColor;vec3 pos=mix(position,aTarget,uMix);float breathing=sin(pos.x*0.05+uTime*1.0)*cos(pos.z*0.05+uTime*1.0)*0.2;pos+=normal*breathing*(1.0-smoothstep(0.0,2.0,uExplode));vec3 dir=normalize(pos);float explodePower=pow(uExplode,2.2)*80.0;pos+=dir*explodePower;if(uExplode>0.1){vec3 drift=vec3(sin(uTime*0.2+aSize*10.0),cos(uTime*0.3+aSize*20.0),sin(uTime*0.25+aSize*30.0));pos+=drift*uExplode*5.0;}vec4 mvPosition=modelViewMatrix*vec4(pos,1.0);gl_Position=projectionMatrix*mvPosition;float sizeBonus=smoothstep(0.0,4.0,uExplode)*3.0*(0.8+0.2*sin(uTime*5.0+aSize*10.0));gl_PointSize=(uSize*aSize+sizeBonus)*(300.0/-mvPosition.z);}`;
         const fShader=`varying vec3 vColor;void main(){float d=distance(gl_PointCoord,vec2(0.5));if(d>0.5)discard;float strength=1.0-smoothstep(0.0,0.5,d);strength=pow(strength,2.0);gl_FragColor=vec4(vColor,strength);}`;
 
         class MagicSummer {
             constructor() {
                 this.count=35000; this.currentShape='heart'; this.mixValue=1; this.isExploded=false;
                 this.handInteraction={rotXSpeed:0,rotYSpeed:0,explodeCurrent:0}; this.logoPoints=[];
-                this.initialized = false; this.active = false;
+                this.initialized = false; this.active = false; this.showSkeleton = false; // 骨架开关
             }
             init() {
                 if(this.initialized) return;
@@ -405,7 +372,6 @@
             }
             initThree(){
                 this.scene=new THREE.Scene(); 
-                // 雾气也改为深蓝色，匹配背景
                 this.scene.fog=new THREE.FogExp2(0x1a1a2e,0.015);
                 this.camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,2000); this.camera.position.set(0,0,120);
                 this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
@@ -432,7 +398,7 @@
                 for(let i=0;i<this.count;i++){
                     let x,y,z; const r=i/this.count;
                     switch(type){
-                        case 'heart': c.setHSL((r*1.5)%1.0,1.0,0.6); let u=Math.random()*Math.PI*2,v=Math.random()*Math.PI; x=16*Math.pow(Math.sin(u),3)*Math.sin(v); y=(13*Math.cos(u)-5*Math.cos(2*u)-2*Math.cos(3*u)-Math.cos(4*u))*Math.sin(v); z=6*Math.cos(v); const ro=1+(Math.random()-0.5)*0.25; x*=ro*2.0; y*=ro*2.0; z*=ro*2.0; y+=5; break;
+                        case 'heart': c.setHSL(r,0.8,0.6); let u=Math.random()*Math.PI*2,v=Math.random()*Math.PI; x=16*Math.pow(Math.sin(u),3)*Math.sin(v); y=(13*Math.cos(u)-5*Math.cos(2*u)-2*Math.cos(3*u)-Math.cos(4*u))*Math.sin(v); z=6*Math.cos(v); const ro=1+(Math.random()-0.5)*0.25; x*=ro*2.0; y*=ro*2.0; z*=ro*2.0; y+=5; break;
                         case 'logo': if(this.logoPoints.length>0){const p=this.logoPoints[i%this.logoPoints.length];x=p.x+(Math.random()-0.5)*1.5;y=p.y+(Math.random()-0.5)*1.5;z=p.z+(Math.random()-0.5)*1.5;c.copy(p.c);}else{x=(Math.random()-0.5)*50;y=(Math.random()-0.5)*50;z=(Math.random()-0.5)*50;c.setHex(0xffffff);} break;
                         case 'tower': c.setHSL(0.1+r*0.1,1.0,0.6); const h=Math.random()*80-40,wid=(40-h)*0.25+1,ut=Math.random()*Math.PI*2,rt=Math.random()*wid; x=rt*Math.cos(ut); z=rt*Math.sin(ut); y=h; break;
                         case 'planet': c.setHSL(0.6+r*0.3,0.9,0.6); let rp=35,vp=Math.acos(2*Math.random()-1),up=Math.random()*Math.PI*2; x=rp*Math.sin(vp)*Math.cos(up); y=rp*Math.sin(vp)*Math.sin(up); z=rp*Math.cos(vp); if(Math.random()>0.8){rp*=1.4+Math.random();x=rp*Math.cos(up);z=rp*Math.sin(up);y=(Math.random()-0.5)*3;c.setHSL(r,0.5,0.8);} break;
@@ -443,25 +409,88 @@
             }
             switchShape(t){if(this.currentShape===t)return;this.currentShape=t;this.generateTargetData(t);this.mixValue=0;if(this.isExploded){this.isExploded=false;this.updateUI();}document.querySelectorAll('.magic-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');}
             toggleMagic(){this.isExploded=!this.isExploded;this.updateUI();}
+            toggleSkeleton(){this.showSkeleton=!this.showSkeleton;document.getElementById('skeleton-btn').classList.toggle('active',this.showSkeleton);}
             updateUI(){
                 const btn=document.getElementById('magic-main-btn'); const txt=document.getElementById('magic-text');
                 if(this.isExploded){btn.innerText="收回";txt.classList.add('visible');}else{btn.innerText="释放星辰";txt.classList.remove('visible');}
             }
             async initMediaPipe(){try{const v=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm");this.hl=await HandLandmarker.createFromOptions(v,{baseOptions:{modelAssetPath:`https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task`,delegate:"GPU"},runningMode:"VIDEO",numHands:1});const vid=document.getElementById('webcam');navigator.mediaDevices.getUserMedia({video:true}).then(s=>{vid.srcObject=s;vid.addEventListener('loadeddata',()=>{this.loop();});});}catch(e){console.error(e);}}
+            
+            // 绘制骨架图的辅助函数
+            drawLandmarks(ctx, landmarks) {
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.lineWidth = 2;
+                
+                const connections = [
+                    [0,1],[1,2],[2,3],[3,4], // 拇指
+                    [0,5],[5,6],[6,7],[7,8], // 食指
+                    [0,9],[9,10],[10,11],[11,12], // 中指
+                    [0,13],[13,14],[14,15],[15,16], // 无名指
+                    [0,17],[17,18],[18,19],[19,20], // 小指
+                    [5,9],[9,13],[13,17] // 掌心连接
+                ];
+                
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+
+                // 画线
+                ctx.strokeStyle = '#00ff00'; // 绿色骨架线
+                connections.forEach(([i, j]) => {
+                    const p1 = landmarks[i];
+                    const p2 = landmarks[j];
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x * w, p1.y * h);
+                    ctx.lineTo(p2.x * w, p2.y * h);
+                    ctx.stroke();
+                });
+
+                // 画点
+                ctx.fillStyle = '#ff0000'; // 红色关节
+                landmarks.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x * w, p.y * h, 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                });
+            }
+
             loop(){
                 if(!this.active) { requestAnimationFrame(this.loop.bind(this)); return; }
-                const vid=document.getElementById('webcam'); if(vid.currentTime>0){ const res=this.hl.detectForVideo(vid,performance.now());
-                if(res.landmarks.length>0){
-                    const lm=res.landmarks[0]; const hx=lm[9].x,hy=lm[9].y;
-                    this.handInteraction.rotYSpeed+=((hx-0.5)*2.5-this.handInteraction.rotYSpeed)*0.1;
-                    this.handInteraction.rotXSpeed+=((hy-0.5)*2.5-this.handInteraction.rotXSpeed)*0.1;
-                    const od=Math.sqrt(Math.pow(lm[4].x-lm[20].x,2)+Math.pow(lm[4].y-lm[20].y,2));
-                    const pd=Math.sqrt(Math.pow(lm[4].x-lm[8].x,2)+Math.pow(lm[4].y-lm[8].y,2));
-                    let ns=this.isExploded; if(od>0.45&&!this.isExploded)ns=true; else if(pd<0.08&&this.isExploded)ns=false;
-                    if(ns!==this.isExploded){this.isExploded=ns;this.updateUI();}
-                    document.getElementById('magic-status').innerText=`手势控制中 | 张开:${od.toFixed(2)}`;
-                } else { this.handInteraction.rotXSpeed*=0.95;this.handInteraction.rotYSpeed*=0.95;document.getElementById('magic-status').innerText=`未检测到手势...`; }
-                } requestAnimationFrame(this.loop.bind(this));
+                const vid=document.getElementById('webcam'); 
+                if(vid.currentTime>0){ 
+                    const res=this.hl.detectForVideo(vid,performance.now());
+                    
+                    // 骨架绘制逻辑
+                    const canvas = document.getElementById('skeleton-canvas');
+                    const ctx = canvas.getContext('2d');
+                    // 确保画布尺寸匹配视频
+                    if(canvas.width !== vid.videoWidth) { canvas.width=vid.videoWidth; canvas.height=vid.videoHeight; }
+                    
+                    if(res.landmarks.length>0){
+                        const lm=res.landmarks[0]; 
+                        
+                        // 如果开关打开，绘制骨架
+                        if(this.showSkeleton) {
+                            this.drawLandmarks(ctx, lm);
+                        } else {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空
+                        }
+
+                        // 原有交互逻辑
+                        const hx=lm[9].x,hy=lm[9].y;
+                        this.handInteraction.rotYSpeed+=((hx-0.5)*2.5-this.handInteraction.rotYSpeed)*0.1;
+                        this.handInteraction.rotXSpeed+=((hy-0.5)*2.5-this.handInteraction.rotXSpeed)*0.1;
+                        const od=Math.sqrt(Math.pow(lm[4].x-lm[20].x,2)+Math.pow(lm[4].y-lm[20].y,2));
+                        const pd=Math.sqrt(Math.pow(lm[4].x-lm[8].x,2)+Math.pow(lm[4].y-lm[8].y,2));
+                        let ns=this.isExploded; if(od>0.45&&!this.isExploded)ns=true; else if(pd<0.08&&this.isExploded)ns=false;
+                        if(ns!==this.isExploded){this.isExploded=ns;this.updateUI();}
+                        document.getElementById('magic-status').innerText=`手势控制中 | 张开:${od.toFixed(2)}`;
+                    } else { 
+                        this.handInteraction.rotXSpeed*=0.95;this.handInteraction.rotYSpeed*=0.95;
+                        document.getElementById('magic-status').innerText=`未检测到手势...`; 
+                        ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
+                    }
+                } 
+                requestAnimationFrame(this.loop.bind(this));
             }
             animate(){
                 if(!this.active) return; requestAnimationFrame(this.animate.bind(this));
@@ -479,7 +508,8 @@
             launchMagic: () => magicApp.start(),
             closeMagic: () => magicApp.close(),
             switchShape: (t) => magicApp.switchShape(t),
-            toggleMagic: () => magicApp.toggleMagic()
+            toggleMagic: () => magicApp.toggleMagic(),
+            toggleSkeleton: () => magicApp.toggleSkeleton() // 暴露骨架开关
         };
 
         // Vue App
